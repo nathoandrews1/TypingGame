@@ -7,37 +7,46 @@ import java.util.Random;
 
 public class GameMapEnvironnment {
     private HashMap<Point, String> gameMap = new HashMap<Point, String>();
-    private HashMap<Point, Item> itemsOnMapLocation = new HashMap<Point, Item>();
+    private static HashMap<Point, Item> itemsOnMapLocation = new HashMap<Point, Item>();
 
-    private HashMap<Point, Enemy> enemiesOnMapLocation = new HashMap<Point, Enemy>();
+    private static HashMap<Point, Enemy> enemiesOnMapLocation = new HashMap<Point, Enemy>();
 
-    private HashMap<Point, Merchant> merchantsOnMapLocation = new HashMap<Point, Merchant>();
+    private static HashMap<Point, Merchant> merchantsOnMapLocation = new HashMap<Point, Merchant>();
 
-    private GameItems gameItems;
+    private static GameItems gameItems;
 
-    private int width;
-    private int height;
-    private int minHeight;
-    private int minWidth;
+    private static int width;
+    private static int height;
+    private static int minHeight;
+    private static int minWidth;
 
-    Point maxBoundaries = new Point(5, 5);
+    static Point maxBoundaries = new Point(5, 5);
 
-    public GameMapEnvironnment(){
-        width = maxBoundaries.x;
-        height = maxBoundaries.y;
-        minHeight = maxBoundaries.y;
-        minWidth = maxBoundaries.x;
+    private static GameMapEnvironnment instance;
 
-        minWidth *= -1; // Make the min width negative
-        minHeight *= -1; // Make the min height negative
+    public static GameMapEnvironnment getInstance(){
+        if(instance == null){
+            instance = new GameMapEnvironnment();
+            width = maxBoundaries.x;
+            height = maxBoundaries.y;
+            minHeight = maxBoundaries.y;
+            minWidth = maxBoundaries.x;
 
-        gameItems = GameItems.getInstance();
-        spawnAllItems();
-        spawnEnemiesOnMap();
-        spawnMerchantsOnMap();
+            minWidth *= -1; // Make the min width negative
+            minHeight *= -1; // Make the min height negative
+
+            gameItems = GameItems.getInstance();
+            spawnAllItems();
+            spawnEnemiesOnMap();
+            spawnMerchantsOnMap();
+            instance = new GameMapEnvironnment();
+        }
+        return instance;
     }
 
-    private void spawnGameItemsOnMap(){
+    private GameMapEnvironnment(){}
+
+    private static void spawnGameItemsOnMap(){
         // Spawn items on the map based on size of the map
         int numberOfItems = (width * height) / 3; // 1/3 of the map will have items
 
@@ -59,7 +68,7 @@ public class GameMapEnvironnment {
         }
     }
 
-    private void spawnWeaponsOnMap(){
+    private static void spawnWeaponsOnMap(){
         // Spawn items on the map based on size of the map
         int numberOfItems = (width * height) / 6; // 1/6 of the map will have items
 
@@ -81,7 +90,7 @@ public class GameMapEnvironnment {
         }
     }
 
-    private void spawnEnemiesOnMap(){
+    private static void spawnEnemiesOnMap(){
         // Spawn items on the map based on size of the map
         int numberOfEnemies = (width * height) / 6; // 1/6 of the map will have enemies
 
@@ -107,7 +116,7 @@ public class GameMapEnvironnment {
         }
     }
 
-    public void spawnMerchantsOnMap(){
+    public static void spawnMerchantsOnMap(){
         int numberOfmerchantsOnMap = (width * height) / 10; // 1/10 of the map will have merchants
 
         if(numberOfmerchantsOnMap == 0){
@@ -141,6 +150,17 @@ public class GameMapEnvironnment {
         return false;
     }
 
+    public boolean isEnemyAtPlayerLocation(Point playerLocation){
+        Enemy enemy = getEnemyAtPoint(playerLocation);
+
+        if(enemy != null){
+            System.out.println("Enemy Found!");
+            System.out.println("Enemy Name: "  + enemy.getName());
+            return true;
+        }
+        return false;
+    }
+
     public boolean isMerchantAtPlayerLocation(Player player){
         Merchant merchant = merchantsOnMapLocation.get(player.getLocation());
 
@@ -151,7 +171,17 @@ public class GameMapEnvironnment {
         return false;
     }
 
-    private void spawnAllItems(){
+    public boolean isMerchantAtPlayerLocation(Point player){
+        Merchant merchant = merchantsOnMapLocation.get(player);
+
+        if(merchant != null){
+            System.out.println("Merchant Found!");
+            return true;
+        }
+        return false;
+    }
+
+    private static void spawnAllItems(){
         spawnGameItemsOnMap();
         spawnWeaponsOnMap();
     }
@@ -212,5 +242,13 @@ public class GameMapEnvironnment {
         for(Point p : enemiesOnMapLocation.keySet()){
             System.out.println("Enemy at: " + p.x + ", " + p.y);
         }
+    }
+
+    public Point getMaxBoundaries() {
+        return maxBoundaries;
+    }
+
+    public HashMap<Point, Enemy> getEnemiesOnMapLocation() {
+        return enemiesOnMapLocation;
     }
 }

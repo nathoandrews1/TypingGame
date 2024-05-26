@@ -329,4 +329,9 @@ public class Player {
     public PlayerInventory getInventory() {
         return playerInventory;
     }
+
+    public void setLocation(Point inLocation){
+        x = inLocation.x;
+        y = inLocation.y;
+    }
 }
