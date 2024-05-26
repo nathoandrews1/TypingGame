@@ -36,17 +36,17 @@ public class GamePanel extends JPanel {
         updatePlayerPosition();
 
         // Add key bindings for player movement
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"), "moveUp");
-        getActionMap().put("moveUp", new MoveAction(0, -1));
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"), "moveLeft");
+        getActionMap().put("moveUp", new MoveAction(-1, 0));
 
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"), "moveDown");
-        getActionMap().put("moveDown", new MoveAction(0, 1));
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"), "moveRight");
+        getActionMap().put("moveDown", new MoveAction(1, 0));
 
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"), "moveLeft");
-        getActionMap().put("moveLeft", new MoveAction(-1, 0));
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"), "moveUp");
+        getActionMap().put("moveLeft", new MoveAction(0, -1));
 
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"), "moveRight");
-        getActionMap().put("moveRight", new MoveAction(1, 0));
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"), "moveDown");
+        getActionMap().put("moveRight", new MoveAction(0, 1));
     }
 
     private class MoveAction extends AbstractAction {
