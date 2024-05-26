@@ -9,13 +9,14 @@ import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
     private JButton[][] grid;
-    private int playerX = 0;
-    private int playerY = 0;
+    private int mapSize = GameMapEnvironnment.getInstance().getMaxBoundaries().x * 2 + 1;
+    private int playerX = mapSize / 2;
+    private int playerY = mapSize / 2;
 
     private Player currentPlayer;
 
     private GameMapEnvironnment gameMapEnvironnment;
-    private int mapSize = GameMapEnvironnment.getInstance().getMaxBoundaries().x * 2 + 1;
+
 
     public GamePanel(Player player, GameMapEnvironnment gameMapEnvironnment){
         this.currentPlayer = player;
